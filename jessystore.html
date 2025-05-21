@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JessyStore</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-primary: #d63384;
+      --color-secondary: #f8bbd0;
+      --color-bg: #fff;
+      --color-page-bg: #fdeef5;
+      --font-heading: 'Playfair Display', serif;
+      --font-body: 'Montserrat', sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin:0; padding:0; height:100%; }
+    body {
+      font-family: var(--font-body);
+      background: var(--color-page-bg) url('https://www.transparenttextures.com/patterns/floral.png');
+      background-blend-mode: overlay;
+      display:flex; flex-direction:column; min-height:100vh;
+      color:#333;
+      animation: fadeIn 1s ease;
+    }
+    @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+    /* Navbar */
+    nav { position:fixed; top:0; width:100%; background:var(--color-primary); color:#fff;
+      display:flex; justify-content:space-between; align-items:center; padding:10px 20px; z-index:100;
+      animation: slideDown 0.6s ease;
+    }
+    @keyframes slideDown { from { transform: translateY(-100%);} to {transform:translateY(0);} }
+    .logo-nav { display:flex; align-items:center; }
+    .logo-nav img { height:50px; margin-right:10px; }
+    nav a { color:#fff; text-decoration:none; margin-left:20px; font-weight:bold; }
+    /* Main */
+    main { flex:1; padding-top:80px; }
+    .hero {
+      text-align:center; padding:60px 20px; background:var(--color-secondary);
+      border-bottom:4px solid var(--color-primary);
+    }
+    .hero img { width:120px; }
+    .hero h1 { font-family:var(--font-heading); font-size:3rem; color:var(--color-primary); margin:10px 0; }
+    .hero p { font-family:var(--font-heading); font-size:1.2rem; }
+    /* Categories */
+    .categories { display:flex; justify-content:center; flex-wrap:wrap; gap:10px; margin:20px 0; }
+    .categories button { background:var(--color-secondary); border:none; padding:8px 16px; border-radius:20px;
+      cursor:pointer; transition:background 0.3s; font-weight:bold;
+    }
+    .categories button.active, .categories button:hover { background:var(--color-primary); color:#fff; }
+    /* Catalog */
+    .catalogo { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:20px; max-width:1000px; margin:0 auto; padding:0 10px;
+    }
+    .producto { background:var(--color-bg); border:2px solid var(--color-secondary); border-radius:10px;
+      overflow:hidden; box-shadow:0 4px 8px rgba(0,0,0,0.1); display:flex; flex-direction:column;
+      transform:translateY(20px); opacity:0; animation:fadeInUp 0.8s forwards;
+    }
+    @keyframes fadeInUp { to { transform:translateY(0); opacity:1; } }
+    .producto img { width:100%; height:150px; object-fit:cover; }
+    .info { padding:15px; flex:1; display:flex; flex-direction:column; }
+    .info h3 { font-family:var(--font-heading); margin-bottom:5px; }
+    .info p { margin-bottom:10px; }
+    .cantidad { display:flex; align-items:center; margin-bottom:10px; }
+    .cantidad button { background:var(--color-primary); color:#fff; border:none; padding:4px 8px; border-radius:4px; cursor:pointer; }
+    .cantidad span { margin:0 8px; }
+    .info button { margin-top:auto; background:var(--color-primary); color:#fff; border:none; padding:10px; border-radius:6px; cursor:pointer; font-weight:bold; }
+    /* Carrito */
+    #carrito-container { max-width:600px; margin:30px auto; background:var(--color-bg); padding:20px; border-radius:10px; border:2px solid var(--color-secondary); }
+    #carrito-container h2 { font-family:var(--font-heading); color:var(--color-primary); text-align:center; margin-bottom:15px; }
+    #lista-carrito { list-style:none; max-height:200px; overflow-y:auto; margin-bottom:15px; padding:0; }
+    #lista-carrito li { display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #eee; }
+    #total { text-align:right; font-family:var(--font-heading); margin-bottom:15px; }
+    #pagar { background:green; color:#fff; border:none; padding:12px; border-radius:6px; width:100%; cursor:pointer; }
+    #pagar:hover { background:#075e07; }
+    /* Footer */
+    footer { background:var(--color-primary); color:#fff; text-align:center; padding:15px; margin-top:auto; }
+    /* Responsive */
+    @media(max-width:768px){ .catalogo{grid-template-columns:1fr 1fr;} }
+    @media(max-width:480px){ .catalogo{grid-template-columns:1fr;} .hero h1{font-size:2rem;} }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="logo-nav">
+      <img src="logo.jpeg" alt="Logo JessyStore">
+      <h2>JessyStore</h2>
+    </div>
+    <div>
+      <a href="#">Inicio</a>
+      <a href="#catalogo">Productos</a>
+      <a href="#carrito-container">Carrito</a>
+    </div>
+  </nav>
+  <main>
+    <section class="hero">
+      <img src="logo.jpeg" alt="Logo JessyStore">
+      <h1>JessyStore</h1>
+      <p>Los productos que quieres, al alcance de tu bolsillo</p>
+    </section>
+    <div class="categories">
+      <button class="active" data-cat="all">Todos</button>
+      <button data-cat="cocina">Cocina</button>
+      <button data-cat="hogar">Hogar</button>
+      <button data-cat="viajes">Viajes</button>
+      <button data-cat="perfumes">Perfumes</button>
+      <button data-cat="cosmeticos">Cosméticos</button>
+    </div>
+    <section id="catalogo" class="catalogo">
+      <!-- Ejemplo producto -->
+      <div class="producto" data-cat="cocina" data-nombre="Hervidor eléctrico" data-precio="40000">
+        <img src="Hervidor electrico.jpeg" alt="Hervidor eléctrico">
+        <div class="info">
+          <h3>Hervidor eléctrico</h3><p>$40.000</p>
+          <div class="cantidad"><button onclick="modCantidad(this,-1)">-</button><span>1</span><button onclick="modCantidad(this,1)">+</button></div>
+          <button onclick="agregarAlCarrito(this)">Agregar al carrito</button>
+        </div>
+      </div>
+      <div class="producto" data-nombre="Gallina hervidor de huevos" data-precio="31000" data-cat="cocina">
+        <img src="gallina hervidor.jpeg" alt="Gallina hervidor de huevos">
+        <div class="info">
+          <h3>Gallina hervidor de huevos</h3>
+          <p>$31.000</p>
+          <div class="cantidad">
+            <button onclick="modCantidad(this,-1)">-</button><span>1</span><button onclick="modCantidad(this,1)">+</button>
+          </div>
+          <button onclick="agregarAlCarrito(this)">Agregar</button>
+        </div>
+      </div>
+      <div class="producto" data-nombre="Marcador x 36 Piezas Doble punta" data-precio="33000" data-cat="papeleria">
+        <img src="marcadores.jpeg" alt="Marcador x36">
+        <div class="info">
+          <h3>Marcador x 36 Piezas Doble punta</h3>
+          <p>$33.000</p>
+          <div class="cantidad">
+            <button onclick="modCantidad(this,-1)">-</button><span>1</span><button onclick="modCantidad(this,1)">+</button>
+          </div>
+          <button onclick="agregarAlCarrito(this)">Agregar</button>
+        </div>
+      </div>
+      <div class="producto" data-nombre="Maleta con separador de zapatos" data-precio="34000" data-cat="viaje">
+        <img src="maleta.jpeg" alt="Maleta zapatos">
+        <div class="info">
+          <h3>Maleta con separador de zapatos</h3>
+          <p>$34.000</p>
+          <div class="cantidad">
+            <button onclick="modCantidad(this,-1)">-</button><span>1</span><button onclick="modCantidad(this,1)">+</button>
+          </div>
+          <button onclick="agregarAlCarrito(this)">Agregar</button>
+        </div>
+      </div>
+      <!-- Añadir aquí más productos con data-cat: cocina, hogar, viajes, perfumes, cosmeticos -->
+    </section>
+    <div id="carrito-container">
+      <h2>Carrito de Compras</h2>
+      <ul id="lista-carrito"></ul>
+      <div id="total">Total: $0.00</div>
+      <button id="pagar" onclick="pagar()">Pagar por WhatsApp</button>
+    </div>
+  </main>
+  <footer>
+    <p>© 2025 JessyStore | Todos los derechos reservados</p>
+  </footer>
+  <script>
+    let carrito = [];
+    // Filtro categorías
+    document.querySelectorAll('.categories button').forEach(btn=>{
+      btn.addEventListener('click',()=>{
+        document.querySelectorAll('.categories button').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        const cat = btn.dataset.cat;
+        document.querySelectorAll('.producto').forEach(p=>{
+          p.style.display = cat==='all'||p.dataset.cat===cat ? 'flex':'none';
+        });
+      });
+    });
+    function modCantidad(btn, d){
+      const span=btn.parentNode.querySelector('span'); let v=parseInt(span.textContent)+d;
+      span.textContent=v<1?1:v;
+    }
+    function agregarAlCarrito(btn){
+      const card=btn.closest('.producto');
+      const nombre=card.dataset.nombre;
+      const precio=parseFloat(card.dataset.precio);
+      const qty=parseInt(card.querySelector('.cantidad span').textContent);
+      const ex=carrito.find(i=>i.nombre===nombre);
+      if(ex) ex.cantidad+=qty;
+      else carrito.push({nombre,precio,cantidad:qty});
+      mostrarCarrito();
+    }
+    function mostrarCarrito(){
+      const ul=document.getElementById('lista-carrito'); ul.innerHTML=''; let tot=0;
+      carrito.forEach(i=>{ const sub=i.precio*i.cantidad; tot+=sub;
+        const li=document.createElement('li'); li.textContent=`${i.nombre} x ${i.cantidad}`;
+        const sp=document.createElement('span'); sp.textContent=`$${sub.toLocaleString()}`;
+        li.appendChild(sp); ul.appendChild(li);
+      });
+      document.getElementById('total').textContent=`Total: $${tot.toLocaleString()}`;
+    }
+    function pagar(){
+      let msg='Hola, quiero comprar:%0A';
+      carrito.forEach(i=> msg+=`${i.nombre} x ${i.cantidad} - $${(i.precio*i.cantidad).toLocaleString()}%0A`);
+      msg+=`Total: $${carrito.reduce((s,i)=>s+i.precio*i.cantidad,0).toLocaleString()}`;
+      window.open(`https://wa.me/+573213909050?text=${msg}`,'_blank');
+    }
+  </script>
+</body>
+</html>
